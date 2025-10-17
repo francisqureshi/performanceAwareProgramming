@@ -1,0 +1,26 @@
+# Zig build artifacts
+zig-out/
+zig-cache/
+.zig-cache/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.iml
+
+# Test artifacts
+*.test
+*.profraw
+*.profdata
