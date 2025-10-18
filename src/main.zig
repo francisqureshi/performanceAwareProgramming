@@ -1,15 +1,32 @@
 const std = @import("std");
 const pap = @import("performanceAwareProgramming");
+const asm_decode = @import("asm_decode.zig");
+const current = @import("current.zig");
 
-const listing_037 = @import("listing_0037_single_register_mov.zig");
+const args_parser = @import("args.zig");
 
 pub fn main() !void {
-    // Prints to stderr, ignoring potential errors.
-    // std.debug.print("Haversine Distance Problem\n", .{});
+    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    defer _ = gpa.deinit();
+    const allocator = gpa.allocator();
 
-    // const test_data_file_path = "/Users/fq/Zig/performance_aware_programming/performanceAwareProgramming/data/someTest.txt";
-    const asm_in = "/Users/fq/Zig/performance_aware_programming/computer_enhance-main/perfaware/part1/listing_0037_single_register_mov";
-    // const filepath = try std.fs.cwd().openDir("data", .{});
-    // _ = try importData(asm_in);
-    _ = try listing_037.homeworkOne(asm_in);
+    const parsed = try args_parser.parseArgs(allocator);
+    defer {
+        if (parsed.input_file) |input| allocator.free(input);
+        if (parsed.output_file) |output| allocator.free(output);
+    }
+
+    switch (parsed.command) {
+        .decode => {
+            if (parsed.input_file) |input| {
+                try asm_decode.homeworkOne(input);
+            } else {
+                std.debug.print("Error: -decode requires input file\n", .{});
+            }
+        },
+        .main => {
+            std.debug.print("Running main loop\n", .{});
+            current.somefn();
+        },
+    }
 }
