@@ -19,7 +19,7 @@ pub fn main() !void {
     switch (parsed.command) {
         .decode => {
             if (parsed.input_file) |input| {
-                try asm_decode.homeworkOne(input);
+                try asm_decode.decodeASM(input);
             } else {
                 std.debug.print("Error: -decode requires input file\n", .{});
             }
